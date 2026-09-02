@@ -14,11 +14,14 @@ public class User {
     @Column(name = "login", unique = true)
     private String login;
 
-
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Account> accountList;
 
-    public User(int id, String login, List<Account> accountList) {
-        this.id = id;
+    public User(String login, List<Account> accountList) {
         this.login = login;
         this.accountList = accountList;
     }
@@ -30,22 +33,10 @@ public class User {
         return id;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    @OneToMany(
-            mappedBy = "user",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
     public List<Account> getAccountList() {
         return accountList;
     }
 
-    public void setAccountList(List<Account> accountList) {
-        this.accountList = accountList;
-    }
 
     @Override
     public String toString() {
